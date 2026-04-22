@@ -37,8 +37,9 @@ export function InvitationGenerator() {
       }
 
       const encodedName = name.replace(/\s+/g, "+");
-      // Use specific base URL requested by user
-      const link = `https://wedday-story.com/aan-hardiansyah/?to=${encodedName}`;
+      const baseUrl = "https://wedday-story.com/vinka-irfan/"; // Updated based on model logic & user's desired structure
+      const link = `${baseUrl}?to=${encodedName}`;
+      
       const message = `${link}
 
 Kepada Yth.
@@ -54,8 +55,7 @@ dengan
 
 🤵🏻Irfan Maulana
 
-
-Untuk info lengkap dari acara bisa kunjungi link undangan kami diatas.
+Info lengkap dari acara bisa kunjungi link di atas.
 
 Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
 
