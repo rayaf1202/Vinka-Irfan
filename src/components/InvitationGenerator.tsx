@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Copy, Check, MessageSquare, Link as LinkIcon, RefreshCw } from "lucide-react";
 
 interface GuestData {
@@ -12,6 +12,13 @@ export function InvitationGenerator() {
   const [inputText, setInputText] = useState("");
   const [results, setResults] = useState<GuestData[]>([]);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (results.length > 0 && resultsRef.current) {
+      resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [results]);
 
   const domain = window.location.origin;
 
@@ -100,7 +107,7 @@ Vinka & Irfan`;
         </button>
 
         {results.length > 0 && (
-          <div className="mt-10 space-y-6">
+          <div ref={resultsRef} className="mt-10 space-y-6 scroll-mt-6">
             <div className="flex items-center justify-between border-b pb-2 border-gray-100">
               <h3 className="font-bold text-hijau-gelap">Results ({results.length} Guests)</h3>
               <button 

@@ -98,18 +98,9 @@ export function EnvelopeOverlay({ onOpen, isOpen }: EnvelopeOverlayProps) {
                 <div className="absolute -bottom-2 -left-2 w-4 h-4 bg-hijau-gelap rounded-full"></div>
                 <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-hijau-gelap rounded-full"></div>
                 
-                {guestName ? (
-                  <p className="text-2xl font-semibold font-serif text-bg-kuning">
-                    {guestName}
-                  </p>
-                ) : (
-                  <input 
-                    type="text" 
-                    placeholder="Tuliskan Nama Anda Disini..." 
-                    className="w-full bg-transparent border-b-2 border-bg-kuning/50 text-center text-bg-kuning placeholder-bg-kuning/70 focus:outline-none focus:border-bg-kuning pb-2 font-sans text-lg"
-                    onChange={(e) => setGuestName(e.target.value)}
-                  />
-                )}
+                <p className="text-xl md:text-2xl font-semibold font-serif text-bg-kuning leading-tight break-words px-2">
+                  {guestName || "Bapak / Ibu / Saudara / i"}
+                </p>
               </div>
 
               <motion.button
