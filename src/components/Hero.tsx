@@ -92,8 +92,8 @@ export function Hero() {
 
         {/* Quote at the bottom */}
         <div className="max-w-2xl px-6">
-          <h3 className="font-serif text-xl md:text-2xl mb-3 font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">~ Ar-Rum · Ayat 21 ~</h3>
-          <p className="italic font-sans text-xs md:text-base leading-relaxed opacity-95 text-center drop-shadow-sm px-2 text-bg-kuning">
+          <h3 className="font-serif text-xl md:text-2xl mb-3 font-bold text-white drop-shadow-[0_0_15px_rgba(255,255,255,1)]">~ Ar-Rum · Ayat 21 ~</h3>
+          <p className="italic font-sans text-xs md:text-base leading-relaxed opacity-100 text-center drop-shadow-[0_0_8px_rgba(255,255,255,0.4)] px-2 text-bg-kuning">
             “Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir.”
           </p>
         </div>
