@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { EnvelopeOverlay } from "./components/EnvelopeOverlay";
 import { Hero } from "./components/Hero";
 import { Quote } from "./components/Quote";
@@ -11,23 +12,16 @@ import { DigitalEnvelope } from "./components/DigitalEnvelope";
 import { Guestbook } from "./components/Guestbook";
 import { Footer } from "./components/Footer";
 import { MusicPlayer } from "./components/MusicPlayer";
+import { Admin } from "./pages/Admin";
 
-import { InvitationGenerator } from "./components/InvitationGenerator";
-
-export default function App() {
+function Invitation() {
   const [isOpened, setIsOpened] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audioError, setAudioError] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Check for admin mode
-  const isAdmin = new URLSearchParams(window.location.search).has("admin");
-
-  useEffect(() => {
-    if (isAdmin) {
-      document.body.style.overflow = "auto";
-    }
-  }, [isAdmin]);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const guestName = searchParams.get('to')?.replace(/\+/g, ' ');
 
   useEffect(() => {
     // Initialize audio with The Beatles - In My Life from Cloudinary using specific Public ID
@@ -97,20 +91,9 @@ export default function App() {
     }
   }, [isOpened]);
 
-  if (isAdmin) {
-    return (
-      <div className="bg-bg-kuning min-h-screen py-8 md:py-20 px-4 overflow-y-auto">
-        <InvitationGenerator />
-        <div className="text-center mt-10 pb-10">
-          <a href="/" className="text-hijau-gelap font-bold hover:underline">Back to Invitation</a>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <main className="relative bg-wedding-yellow min-h-screen font-sans text-wedding-green selection:bg-wedding-gold selection:text-white">
-      <EnvelopeOverlay isOpen={isOpened} onOpen={handleOpen} />
+      <EnvelopeOverlay isOpen={isOpened} onOpen={handleOpen} guestName={guestName} />
       
       {isOpened && (
         <>
@@ -128,5 +111,14 @@ export default function App() {
         </>
       )}
     </main>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Invitation />} />
+      <Route path="/admin" element={<Admin />} />
+    </Routes>
   );
 }
