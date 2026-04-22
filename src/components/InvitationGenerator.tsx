@@ -110,6 +110,20 @@ Vinka & Irfan`;
 
         {results.length > 0 && (
           <div ref={resultsRef} className="mt-10 space-y-6 scroll-mt-6">
+            <div className="p-4 bg-hijau-zaitun/10 rounded-xl border border-hijau-zaitun/20 flex items-center gap-4">
+              <div className="w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-white shadow-sm">
+                <img 
+                  src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776837189/Abg_5_ogwp3f.jpg" 
+                  alt="Thumbnail Preview" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div>
+                <h4 className="font-bold text-hijau-gelap text-sm">WhatsApp Link Preview</h4>
+                <p className="text-xs text-gray-600">This image (Abg_5_ogwp3f) will be shown when you share the link.</p>
+              </div>
+            </div>
+
             <div className="flex items-center justify-between border-b pb-2 border-gray-100">
               <h3 className="font-bold text-hijau-gelap">Results ({results.length} Guests)</h3>
               <button 
