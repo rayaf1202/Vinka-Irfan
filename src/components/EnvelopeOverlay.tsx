@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, Flower2 } from "lucide-react";
+import { Heart, Flower2, Instagram } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface EnvelopeOverlayProps {
@@ -50,17 +50,17 @@ export function EnvelopeOverlay({ onOpen, isOpen }: EnvelopeOverlayProps) {
           >
         {/* Portraits */}
         <div className="flex justify-center items-center gap-4 mb-8">
-          {/* Groom Portrait */}
-          <div className="relative w-32 h-44 bg-bg-kuning/20 rounded-2xl border-2 border-bg-kuning overflow-hidden group shadow-xl">
+          {/* Bride Portrait - Vinka */}
+          <div className="relative w-32 h-44 bg-bg-kuning/20 rounded-2xl border-2 border-bg-kuning overflow-hidden shadow-xl group">
             <img 
-              src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776838504/wedding_invitation/v2_png.png" 
-              alt="Irfan" 
-              className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-500" 
+              src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776838504/wedding_invitation/v1_png.png" 
+              alt="Vinka" 
+              className="w-full h-full object-cover transition-all duration-500" 
               onError={(e) => {
-                (e.target as HTMLImageElement).src = "https://api.dicebear.com/7.x/avataaars/svg?seed=Irfan&style=transparent&top=shortHair&clothing=blazerAndShirt";
+                (e.target as HTMLImageElement).src = "https://api.dicebear.com/7.x/avataaars/svg?seed=Vinka&style=transparent&top=hijab&clothing=blazerAndShirt";
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-hijau-zaitun/40 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-hijau-zaitun/40 to-transparent pointer-events-none"></div>
           </div>
 
           <motion.div
@@ -71,17 +71,17 @@ export function EnvelopeOverlay({ onOpen, isOpen }: EnvelopeOverlayProps) {
             <Heart size={24} fill="currentColor" />
           </motion.div>
 
-          {/* Bride Portrait */}
-          <div className="relative w-32 h-44 bg-bg-kuning/20 rounded-2xl border-2 border-bg-kuning overflow-hidden group shadow-xl">
+          {/* Groom Portrait - Irfan */}
+          <div className="relative w-32 h-44 bg-bg-kuning/20 rounded-2xl border-2 border-bg-kuning overflow-hidden shadow-xl group">
             <img 
-              src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776838504/wedding_invitation/v1_png.png" 
-              alt="Vinka" 
-              className="w-full h-full object-cover grayscale-[0.2] hover:grayscale-0 transition-all duration-500" 
+              src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776838504/wedding_invitation/v2_png.png" 
+              alt="Irfan" 
+              className="w-full h-full object-cover transition-all duration-500" 
               onError={(e) => {
-                (e.target as HTMLImageElement).src = "https://api.dicebear.com/7.x/avataaars/svg?seed=Vinka&style=transparent&top=hijab&clothing=blazerAndShirt";
+                (e.target as HTMLImageElement).src = "https://api.dicebear.com/7.x/avataaars/svg?seed=Irfan&style=transparent&top=shortHair&clothing=blazerAndShirt";
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-hijau-zaitun/40 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-hijau-zaitun/40 to-transparent pointer-events-none"></div>
           </div>
         </div>
 
