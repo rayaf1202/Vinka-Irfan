@@ -79,16 +79,6 @@ Vinka & Irfan`;
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl mt-4 md:mt-10 border border-hijau-zaitun/20 font-sans">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
-        <div className="p-2 bg-hijau-gelap text-white rounded-lg shrink-0">
-          <RefreshCw size={24} />
-        </div>
-        <div>
-          <h2 className="text-xl md:text-2xl font-bold text-hijau-gelap leading-none">WhatsApp Invitation Generator</h2>
-          <p className="text-xs md:text-sm text-gray-500 mt-1">Generate personalized messages & links for your guests</p>
-        </div>
-      </div>
-
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-bold text-gray-700 mb-2">Input Guest List</label>
@@ -110,8 +100,8 @@ Vinka & Irfan`;
 
         {results.length > 0 && (
           <div ref={resultsRef} className="mt-10 space-y-6 scroll-mt-6">
-            <div className="p-4 bg-hijau-zaitun/10 rounded-xl border border-hijau-zaitun/20 flex items-center gap-4">
-              <div className="w-20 h-20 rounded-lg overflow-hidden shrink-0 border border-white shadow-sm">
+            <div className="p-5 bg-hijau-zaitun/10 rounded-2xl border-2 border-hijau-zaitun/20 flex flex-col md:flex-row items-center gap-5 shadow-sm">
+              <div className="w-full md:w-32 h-32 rounded-xl overflow-hidden shrink-0 border-2 border-white shadow-md">
                 <img 
                   src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776837189/Abg_5_ogwp3f.jpg" 
                   alt="Thumbnail Preview" 
@@ -119,8 +109,13 @@ Vinka & Irfan`;
                 />
               </div>
               <div>
-                <h4 className="font-bold text-hijau-gelap text-sm">WhatsApp Link Preview</h4>
-                <p className="text-xs text-gray-600">This image (Abg_5_ogwp3f) will be shown when you share the link.</p>
+                <h4 className="font-bold text-hijau-gelap text-base mb-1">WhatsApp Preview Thumbnail</h4>
+                <p className="text-sm text-gray-600 leading-relaxed italic">
+                  "This photo will appear as the thumbnail image when you paste the link into WhatsApp chat."
+                </p>
+                <div className="mt-2 text-[10px] font-mono text-hijau-zaitun bg-white px-2 py-1 rounded border border-hijau-zaitun/10 inline-block">
+                  Link: Wedding-Vinka-Irfan.vercel.app
+                </div>
               </div>
             </div>
 
