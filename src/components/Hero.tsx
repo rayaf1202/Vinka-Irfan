@@ -40,7 +40,7 @@ export function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 1 }}
-        className="relative z-20 flex flex-col items-center justify-between min-h-[85vh] py-16 md:py-24"
+        className="relative z-20 flex flex-col items-center justify-between min-h-[85vh] pt-24 pb-12 md:pt-32 md:pb-24 lg:py-24"
       >
         <div className="flex flex-col items-center">
           <p className="text-bg-kuning tracking-[0.2em] text-base md:text-xl mb-1 font-sans font-bold drop-shadow-sm">28.06.26</p>
@@ -91,9 +91,9 @@ export function Hero() {
         </div>
 
         {/* Quote at the bottom */}
-        <div className="max-w-2xl px-6 text-bg-kuning">
-          <h3 className="font-serif text-xl md:text-2xl mb-3 drop-shadow-sm font-bold">~ Ar-Rum · Ayat 21 ~</h3>
-          <p className="italic font-sans text-xs md:text-base leading-relaxed opacity-95 text-center drop-shadow-sm px-2">
+        <div className="max-w-2xl px-6">
+          <h3 className="font-serif text-xl md:text-2xl mb-3 font-bold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">~ Ar-Rum · Ayat 21 ~</h3>
+          <p className="italic font-sans text-xs md:text-base leading-relaxed opacity-95 text-center drop-shadow-sm px-2 text-bg-kuning">
             “Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir.”
           </p>
         </div>

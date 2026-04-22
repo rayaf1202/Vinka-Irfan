@@ -96,7 +96,7 @@ export function EnvelopeOverlay({ onOpen, isOpen, guestName: defaultGuestName }:
 
             <div className="w-full max-w-sm mx-auto">
               <p className="text-lg mb-2 font-sans">Kepada yth:</p>
-              <div className="border-4 border-hijau-gelap bg-transparent p-6 rounded-sm relative mb-8">
+              <div className="border-4 border-hijau-gelap bg-transparent p-6 rounded-sm relative mb-8 min-h-[90px] flex items-center justify-center">
                 {/* Decorative corners */}
                 <div className="absolute -top-2 -left-2 w-4 h-4 bg-hijau-gelap rounded-full"></div>
                 <div className="absolute -top-2 -right-2 w-4 h-4 bg-hijau-gelap rounded-full"></div>
@@ -104,16 +104,13 @@ export function EnvelopeOverlay({ onOpen, isOpen, guestName: defaultGuestName }:
                 <div className="absolute -bottom-2 -right-2 w-4 h-4 bg-hijau-gelap rounded-full"></div>
                 
                 {guestName ? (
-                  <p className="text-2xl font-semibold font-serif text-bg-kuning">
+                  <p className="text-2xl md:text-3xl font-semibold font-serif text-bg-kuning leading-tight break-words">
                     {guestName}
                   </p>
                 ) : (
-                  <input 
-                    type="text" 
-                    placeholder="Tuliskan Nama Anda Disini..." 
-                    className="w-full bg-transparent border-b-2 border-bg-kuning/50 text-center text-bg-kuning placeholder-bg-kuning/70 focus:outline-none focus:border-bg-kuning pb-2 font-sans text-lg"
-                    onChange={(e) => setGuestName(e.target.value)}
-                  />
+                  <p className="text-lg sm:text-xl md:text-2xl font-semibold font-serif text-bg-kuning whitespace-nowrap overflow-hidden text-ellipsis px-1">
+                    Bapak / Ibu / Saudara / i
+                  </p>
                 )}
               </div>
 

@@ -115,10 +115,16 @@ function Invitation() {
 }
 
 export default function App() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isAdminPath = searchParams.has('admin');
+
   return (
-    <Routes>
-      <Route path="/" element={<Invitation />} />
-      <Route path="/admin" element={<Admin />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={isAdminPath ? <Admin /> : <Invitation />} />
+        <Route path="*" element={<Invitation />} />
+      </Routes>
+    </>
   );
 }
