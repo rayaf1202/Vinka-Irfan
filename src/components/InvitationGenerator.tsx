@@ -37,7 +37,7 @@ export function InvitationGenerator() {
       }
 
       const encodedName = name.replace(/\s+/g, "+");
-      const baseUrl = "https://Wedding-Vinka-Irfan.vercel.app/"; 
+      const baseUrl = "https://wedding-vinka-irfan.vercel.app/"; 
       const link = `${baseUrl}?to=${encodedName}`;
       
       const message = `${link}
@@ -114,8 +114,11 @@ Vinka & Irfan`;
                   "This photo will appear as the thumbnail image when you paste the link into WhatsApp chat."
                 </p>
                 <div className="mt-2 text-[10px] font-mono text-hijau-zaitun bg-white px-2 py-1 rounded border border-hijau-zaitun/10 inline-block">
-                  Link: Wedding-Vinka-Irfan.vercel.app
+                  Link: wedding-vinka-irfan.vercel.app
                 </div>
+                <p className="mt-2 text-[10px] text-red-500 font-bold">
+                  *Tip: After pasting in WA, wait 3 seconds for the preview to load before sending.
+                </p>
               </div>
             </div>
 
