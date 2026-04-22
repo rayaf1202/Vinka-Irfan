@@ -37,11 +37,10 @@ export function InvitationGenerator() {
       }
 
       const encodedName = name.replace(/\s+/g, "+");
-      const baseUrl = "https://wedding-vinka-irfan.vercel.app/"; 
+      const baseUrl = "https://vinka-irfan.vercel.app/"; 
       const link = `${baseUrl}?to=${encodedName}`;
       
       const message = `${link}
-
 Kepada Yth.
 Bapak/Ibu/Saudara/i
 ${name}
@@ -49,18 +48,13 @@ ${name}
 Assalamualaikum Warahmatullahi Wabarakaatuh
 Dengan memohon rahmat dan ridho Allah SWT, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami :
 
-👰🏻‍♀️Vinka Intan Citradewi 
-
+👰🏻‍♀️Vinka Intan Citradewi
 dengan
-
 🤵🏻Irfan Maulana
 
 Info lengkap dari acara bisa kunjungi link di atas.
-
 Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
-
 Atas kehadiran dan doa restunya kami ucapkan terima kasih.
-
 
 Hormat kami,
 Vinka & Irfan`;
@@ -103,7 +97,7 @@ Vinka & Irfan`;
             <div className="p-5 bg-hijau-zaitun/10 rounded-2xl border-2 border-hijau-zaitun/20 flex flex-col md:flex-row items-center gap-5 shadow-sm">
               <div className="w-full md:w-32 h-32 rounded-xl overflow-hidden shrink-0 border-2 border-white shadow-md">
                 <img 
-                  src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776837189/Abg_5_ogwp3f.jpg" 
+                  src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776837190/abg1_sc7mvz.jpg" 
                   alt="Thumbnail Preview" 
                   className="w-full h-full object-cover"
                 />
@@ -114,7 +108,7 @@ Vinka & Irfan`;
                   "This photo will appear as the thumbnail image when you paste the link into WhatsApp chat."
                 </p>
                 <div className="mt-2 text-[10px] font-mono text-hijau-zaitun bg-white px-2 py-1 rounded border border-hijau-zaitun/10 inline-block">
-                  Link: wedding-vinka-irfan.vercel.app
+                  Link: vinka-irfan.vercel.app
                 </div>
                 <p className="mt-2 text-[10px] text-red-500 font-bold">
                   *Tip: After pasting in WA, wait 3 seconds for the preview to load before sending.
