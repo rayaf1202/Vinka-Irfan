@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cinzel", serif;
+  --font-sans: "Lora", serif;
+
+  --color-bg-kuning: #fdf6aa;
+  --color-hijau-zaitun: #5b692b;
+  --color-hijau-gelap: #3a4518;
+  --color-pink-bunga: #e85d88;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-bg-kuning text-hijau-zaitun antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-hijau-gelap;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #fdf6aa;
+}
+::-webkit-scrollbar-thumb {
+  background: #5b692b;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a4518;
+}
+
+/* Utility classes */
+.glass-card {
+  @apply bg-bg-kuning/80 backdrop-blur-md border border-hijau-zaitun/20 shadow-lg;
+}
+
+/* Audio Visualizer Animation */
+@keyframes bounce {
+  0%, 100% { transform: scaleY(0.5); }
+  50% { transform: scaleY(1); }
+}
+.visualizer-bar {
+  animation: bounce 1s infinite ease-in-out;
+  transform-origin: bottom;
+}
+.visualizer-bar:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.visualizer-bar:nth-child(3) {
+  animation-delay: 0.4s;
+}
+

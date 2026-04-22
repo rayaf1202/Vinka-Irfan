@@ -1,0 +1,132 @@
+import { useState, useRef, useEffect } from "react";
+import { EnvelopeOverlay } from "./components/EnvelopeOverlay";
+import { Hero } from "./components/Hero";
+import { Quote } from "./components/Quote";
+import { Couple } from "./components/Couple";
+import { LoveStory } from "./components/LoveStory";
+import { Gallery } from "./components/Gallery";
+import { EventDetails } from "./components/EventDetails";
+import { LocationMap } from "./components/LocationMap";
+import { DigitalEnvelope } from "./components/DigitalEnvelope";
+import { Guestbook } from "./components/Guestbook";
+import { Footer } from "./components/Footer";
+import { MusicPlayer } from "./components/MusicPlayer";
+
+import { InvitationGenerator } from "./components/InvitationGenerator";
+
+export default function App() {
+  const [isOpened, setIsOpened] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioError, setAudioError] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Check for admin mode
+  const isAdmin = new URLSearchParams(window.location.search).has("admin");
+
+  useEffect(() => {
+    if (isAdmin) {
+      document.body.style.overflow = "auto";
+    }
+  }, [isAdmin]);
+
+  useEffect(() => {
+    // Initialize audio with The Beatles - In My Life from Cloudinary using specific Public ID
+    const audioUrl = "https://res.cloudinary.com/dwaizjrar/video/upload/In_My_Life_ipynxu.mp3";
+    audioRef.current = new Audio(audioUrl);
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0; // Start at 0 for fade in
+    
+    // Add error handling to see why it might fail
+    audioRef.current.onerror = (e) => {
+      console.error("Audio failed to load from Cloudinary Public ID:", e);
+      // Fallback to the archive.org source if Cloudinary fails
+      if (audioRef.current && audioRef.current.src !== "https://archive.org/download/the-beatles-in-my-life/In%20My%20Life.mp3") {
+         console.log("Attempting fallback audio...");
+         audioRef.current.src = "https://archive.org/download/the-beatles-in-my-life/In%20My%20Life.mp3";
+         audioRef.current.load();
+      } else {
+         setAudioError(true);
+      }
+    };
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const handleOpen = () => {
+    setIsOpened(true);
+    document.body.style.overflow = "auto"; // Unlock scroll
+    
+    // Play audio and fade in
+    if (audioRef.current) {
+      audioRef.current.play().then(() => {
+        setIsPlaying(true);
+        setAudioError(false); // Reset error if it plays
+        let vol = 0;
+        const fadeInterval = setInterval(() => {
+          if (vol < 0.5) {
+            vol += 0.05;
+            if (audioRef.current) audioRef.current.volume = vol;
+          } else {
+            clearInterval(fadeInterval);
+          }
+        }, 200);
+      }).catch(err => console.log("Audio autoplay blocked:", err));
+    }
+  };
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  // Lock scroll initially
+  useEffect(() => {
+    if (!isOpened) {
+      document.body.style.overflow = "hidden";
+    }
+  }, [isOpened]);
+
+  if (isAdmin) {
+    return (
+      <div className="bg-bg-kuning min-h-screen py-8 md:py-20 px-4 overflow-y-auto">
+        <InvitationGenerator />
+        <div className="text-center mt-10 pb-10">
+          <a href="/" className="text-hijau-gelap font-bold hover:underline">Back to Invitation</a>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <main className="relative bg-wedding-yellow min-h-screen font-sans text-wedding-green selection:bg-wedding-gold selection:text-white">
+      <EnvelopeOverlay isOpen={isOpened} onOpen={handleOpen} />
+      
+      {isOpened && (
+        <>
+          <Hero />
+          <Quote />
+          <Couple />
+          <LoveStory />
+          <Gallery />
+          <EventDetails />
+          <LocationMap />
+          <DigitalEnvelope />
+          <Guestbook />
+          <Footer />
+          <MusicPlayer isPlaying={isPlaying} togglePlay={togglePlay} hasError={audioError} />
+        </>
+      )}
+    </main>
+  );
+}
