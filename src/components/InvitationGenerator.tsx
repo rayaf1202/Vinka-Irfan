@@ -37,7 +37,7 @@ export function InvitationGenerator() {
       }
 
       const encodedName = name.replace(/\s+/g, "+");
-      const baseUrl = "https://wedday-story.com/vinka-irfan/"; // Updated based on model logic & user's desired structure
+      const baseUrl = "https://Wedding-Vinka-Irfan.vercel.app/"; 
       const link = `${baseUrl}?to=${encodedName}`;
       
       const message = `${link}
