@@ -1,30 +1,14 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Default deny
+    match /ucapan/{document} {
+      // Mengizinkan baca, tulis, dan hapus
+      allow read, write, delete: if true;
+    }
+    
+    // Default deny for everything else
     match /{document=**} {
       allow read, write: if false;
-    }
-
-    // Global helpers
-    function incoming() { return request.resource.data; }
-    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
-    
-    // Wish validation
-    function isValidWish(data) {
-      return data.keys().hasAll(['nama', 'kehadiran', 'pesan', 'waktu']) &&
-             data.keys().size() == 4 &&
-             data.nama is string && data.nama.size() > 0 && data.nama.size() <= 100 &&
-             data.kehadiran in ['Hadir', 'Tidak Hadir', 'Ragu-ragu'] &&
-             data.pesan is string && data.pesan.size() > 0 && data.pesan.size() <= 1000 &&
-             data.waktu == request.time;
-    }
-
-    match /ucapan/{ucapanId} {
-      allow list: if true;
-      allow get: if true;
-      allow create: if isValidId(ucapanId) && isValidWish(incoming());
-      allow update, delete: if false;
     }
   }
 }
