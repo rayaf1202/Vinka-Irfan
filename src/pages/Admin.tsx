@@ -135,11 +135,9 @@ export function Admin() {
   };
 
   const getWhatsappMessage = () => {
-    return `${uniqueUrl}
-
-Kepada Yth.
+    return `Kepada Yth.
 Bapak/Ibu/Saudara/i
-
+${name.trim() || "[NAMA TAMU]"}
 
 Assalamualaikum Warahmatullahi Wabarakaatuh
 Dengan memohon rahmat dan ridho Allah SWT, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami :
@@ -148,9 +146,10 @@ Dengan memohon rahmat dan ridho Allah SWT, perkenankan kami mengundang Bapak/Ibu
 dengan
 🤵🏻Irfan Maulana
 
-Info lengkap dari acara bisa kunjungi link di Dibawah ini.
+Info lengkap dari acara bisa kunjungi link di bawah ini:
+${uniqueUrl}
+
 Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
-${name.trim() || "[NAMA TAMU]"}
 
 Atas kehadiran dan doa restunya kami ucapkan terima kasih.
 
