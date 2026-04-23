@@ -55,6 +55,24 @@ export function Admin() {
   }, []);
 
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [generatedList, setGeneratedList] = useState<{ name: string; url: string }[]>([]);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const copyToClipboard = (text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 1500);
+  };
+
+  const handleGenerate = () => {
+    if (!validate()) return;
+    const nameList = getNameList();
+    const newList = nameList.map(name => ({
+      name,
+      url: getUniqueUrl(name)
+    }));
+    setGeneratedList(newList);
+  };
 
   const handleDeleteWish = async (id: string) => {
     if (window.confirm("Apakah Anda yakin ingin menghapus pesan ini?")) {
@@ -326,32 +344,52 @@ Vinka & Irfan`;
 
               <div className="pt-4 border-t border-wedding-green/10 flex flex-col gap-3">
                 <button
-                  onClick={handleCopy}
+                  onClick={handleGenerate}
                   className="w-full flex items-center justify-center gap-2 bg-wedding-green text-wedding-yellow py-3 px-6 rounded-lg font-medium hover:bg-wedding-green/90 transition-colors shadow-sm"
                 >
-                  {copied ? <CheckCircle size={18} /> : <Copy size={18} />}
-                  {copied ? "Berhasil Disalin!" : "Salin Pesan"}
-                </button>
-                
-                <a
-                  href={getWhatsappLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={handleWhatsappClick}
-                  className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white py-3 px-6 rounded-lg font-medium hover:bg-[#20b858] transition-colors shadow-sm"
-                >
-                  <MessageSquare size={18} />
-                  Kirim via WhatsApp
-                </a>
-
-                <button
-                  onClick={handleReset}
-                  className="w-full flex items-center justify-center gap-2 bg-transparent text-red-500 border border-red-200 py-3 px-6 rounded-lg font-medium hover:bg-red-50 transition-colors"
-                >
-                  <Trash2 size={18} />
-                  Hapus Form
+                  <CheckCircle size={18} />
+                  Generate Link Tamu
                 </button>
               </div>
+
+              {generatedList.length > 0 && (
+                <div className="mt-8 border-t border-wedding-green/20 pt-6">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="font-bold text-wedding-green">Daftar Link Tamu:</h3>
+                        <button 
+                            onClick={() => navigator.clipboard.writeText(generatedList.map(item => `Untuk: ${item.name}\n${getWhatsappMessage(item.name)}\n\n---\n`).join("\n"))}
+                            className="flex items-center gap-1.5 bg-wedding-green text-wedding-yellow px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-wedding-green/90 transition-colors"
+                        >
+                            <Copy size={14} /> Salin Semua Pesan
+                        </button>
+                    </div>
+                    <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
+                        <table className="w-full text-sm text-left">
+                            <thead className="text-xs text-wedding-green uppercase bg-wedding-yellow/20">
+                                <tr>
+                                    <th className="px-4 py-3">Nama</th>
+                                    <th className="px-4 py-3">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {generatedList.map((item, idx) => (
+                                    <tr key={idx} className="border-b border-wedding-green/10">
+                                        <td className="px-4 py-3 font-medium">{item.name}</td>
+                                        <td className="px-4 py-3">
+                                            <button 
+                                                onClick={() => navigator.clipboard.writeText(getWhatsappMessage(item.name))}
+                                                className="flex items-center gap-1 text-wedding-green hover:underline"
+                                            >
+                                                <Copy size={16} /> Copy
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+              )}
             </div>
 
             <div className="lg:w-1/2">
@@ -442,15 +480,20 @@ Vinka & Irfan`;
                 {wishes.filter(w => filterStatus === "Semua" || w.kehadiran === filterStatus).map((wish) => (
                   <div key={wish.id} className="bg-wedding-yellow/10 border border-wedding-green/10 rounded-xl p-4 md:p-6 transition-all hover:border-wedding-green/30 hover:shadow-md group">
                     <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
-                      <div className="space-y-3">
+                      <div className="space-y-3 flex-grow">
                         <div className="flex items-center gap-3">
                           <div className="w-10 h-10 rounded-full bg-wedding-green/10 flex items-center justify-center text-wedding-green">
                             <User size={20} />
                           </div>
-                          <div>
-                            <h3 className="font-bold text-wedding-green text-lg">{wish.nama}</h3>
+                          <div className="flex-1">
+                            <h3 className="font-bold text-wedding-green text-lg flex items-center gap-2">
+                                {wish.nama}
+                                <button onClick={() => copyToClipboard(wish.nama, `${wish.id}-nama`)} className="text-wedding-green/40 hover:text-wedding-green">
+                                    {copiedId === `${wish.id}-nama` ? <Check size={14} /> : <Copy size={14} />}
+                                </button>
+                            </h3>
                             <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
-                              <span className={`px-2 py-0.5 rounded ${
+                              <span className={`px-2 py-0.5 rounded flex items-center gap-1 ${
                                 wish.kehadiran === 'Hadir' 
                                   ? 'bg-green-100 text-green-700' 
                                   : wish.kehadiran === 'Tidak Hadir' 
@@ -458,6 +501,9 @@ Vinka & Irfan`;
                                     : 'bg-yellow-100 text-yellow-700'
                               }`}>
                                 {wish.kehadiran}
+                                <button onClick={() => copyToClipboard(wish.kehadiran, `${wish.id}-status`)} className="opacity-50 hover:opacity-100">
+                                    {copiedId === `${wish.id}-status` ? <Check size={12} /> : <Copy size={12} />}
+                                </button>
                               </span>
                               <span className="text-gray-400 flex items-center gap-1">
                                 <Clock size={12} />
@@ -466,8 +512,11 @@ Vinka & Irfan`;
                             </div>
                           </div>
                         </div>
-                        <p className="text-wedding-green/80 italic font-medium leading-relaxed bg-white/50 p-3 rounded-lg border border-wedding-green/5">
+                        <p className="text-wedding-green/80 italic font-medium leading-relaxed bg-white/50 p-3 rounded-lg border border-wedding-green/5 relative group">
                           "{wish.pesan}"
+                          <button onClick={() => copyToClipboard(wish.pesan, `${wish.id}-pesan`)} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-wedding-green/50 hover:text-wedding-green">
+                                {copiedId === `${wish.id}-pesan` ? <Check size={14} /> : <Copy size={14} />}
+                          </button>
                         </p>
                       </div>
                       <button

@@ -1,6 +1,6 @@
 import { Section } from "./Section";
 import { Card } from "./Card";
-import { Navigation, MapPin, Search, Share2, Save, Bookmark, Globe, Clock, ChevronDown } from "lucide-react";
+import { Navigation, MapPin, Search, Share2, Save, Bookmark, Globe, Clock, ChevronDown, Copy } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function LocationMap() {
@@ -113,11 +113,22 @@ export function LocationMap() {
 
               {/* Info Rows */}
               <div className="space-y-5">
-                <div className="flex items-start gap-4">
-                  <MapPin className="text-hijau-zaitun shrink-0 mt-1" size={20} />
-                  <p className="text-sm text-gray-700 leading-snug">
-                    Jl. Meruyung Raya, Limo, Kota Depok, Jawa Barat 16515
-                  </p>
+                <div className="flex items-start gap-4 group">
+                  <div className="p-2 bg-hijau-gelap/10 rounded-full">
+                    <MapPin className="text-hijau-zaitun" size={20} />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1">Alamat Lengkap</p>
+                    <p className="text-sm text-gray-700 leading-snug">
+                      Jl. Meruyung Raya, Limo, Kota Depok, Jawa Barat 16515
+                    </p>
+                    <button 
+                      onClick={() => navigator.clipboard.writeText("Jl. Meruyung Raya, Limo, Kota Depok, Jawa Barat 16515")}
+                      className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-hijau-gelap hover:text-hijau-zaitun transition-colors"
+                    >
+                      <Copy size={12} /> Salin Alamat
+                    </button>
+                  </div>
                 </div>
                 
                 {/* Event Times Integrated */}

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Heart, Instagram, Globe } from "lucide-react";
+import { Heart, Instagram, Globe, MessageCircle } from "lucide-react";
 
 export function Footer() {
   return (
@@ -23,7 +23,14 @@ export function Footer() {
         
         {/* Branding & Socials */}
         <div className="flex flex-col items-center gap-6 text-bg-kuning font-sans">
-            <p className="text-sm md:text-base font-medium opacity-90">Made with ❤️ by Overtime Rework ID</p>
+            <p className="text-sm md:text-base font-medium opacity-90">
+                Made with ❤️ by Overtime Rework ID
+            </p>
+            <p className="text-sm md:text-base font-medium opacity-90">
+                Hubungi Kami OT Rework ID : <a href="https://wa.me/+6285973777718" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-white transition-all underline underline-offset-4">
+                    +6285973777718 <MessageCircle size={16} />
+                </a>
+            </p>
             
             <div className="flex flex-col items-center gap-4">
                 <a 

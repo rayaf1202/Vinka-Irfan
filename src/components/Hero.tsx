@@ -44,12 +44,12 @@ export function Hero() {
         className="relative z-20 flex flex-col items-center justify-between min-h-[75vh] py-12 md:py-24 w-full"
       >
         <div className="flex flex-col items-center w-full px-6">
-          <p className="text-bg-kuning tracking-[0.2em] text-[11px] md:text-lg mb-1 font-sans font-bold drop-shadow-md">28.06.26</p>
           <p className="text-bg-kuning tracking-[0.3em] text-[9px] md:text-sm mb-2 font-sans opacity-95 uppercase">THE WEDDING OF</p>
           
           <h1 className="text-3xl md:text-7xl font-serif text-bg-kuning drop-shadow-xl leading-tight text-center px-4">
             VINKA & IRFAN
           </h1>
+          <p className="text-bg-kuning tracking-[0.2em] text-[11px] md:text-lg mt-4 font-sans font-bold drop-shadow-md">28.06.26</p>
         </div>
 
         {/* Couple Illustration */}
