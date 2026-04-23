@@ -139,10 +139,19 @@ export default function App() {
     return localStorage.getItem("isAdminAuth") === "true";
   });
 
+  const [showWarning, setShowWarning] = useState(false);
+
   const handleLogin = () => {
     setIsAdminAuth(true);
     localStorage.setItem("isAdminAuth", "true");
     localStorage.setItem("adminAuthTime", Date.now().toString());
+  };
+
+  const handleLogout = () => {
+    setIsAdminAuth(false);
+    setShowWarning(false);
+    localStorage.removeItem("isAdminAuth");
+    localStorage.removeItem("adminAuthTime");
   };
 
   useEffect(() => {
@@ -151,8 +160,16 @@ export default function App() {
         const authTime = localStorage.getItem("adminAuthTime");
         if (authTime) {
           const elapsed = Date.now() - parseInt(authTime);
+          
+          if (elapsed > 14 * 60 * 1000 && elapsed < 15 * 60 * 1000) {
+            setShowWarning(true);
+          } else {
+            setShowWarning(false);
+          }
+
           if (elapsed > 15 * 60 * 1000) { // 15 menit
             setIsAdminAuth(false);
+            setShowWarning(false);
             localStorage.removeItem("isAdminAuth");
             localStorage.removeItem("adminAuthTime");
           }
@@ -169,11 +186,29 @@ export default function App() {
       <Routes>
         <Route path="/" element={
           isAdminPath ? 
-            (isAdminAuth ? <Admin /> : <AdminLogin onLogin={handleLogin} />) 
+            (isAdminAuth ? <Admin onLogout={handleLogout} /> : <AdminLogin onLogin={handleLogin} />) 
             : <Invitation />
         } />
         <Route path="*" element={<Invitation />} />
       </Routes>
+
+      {showWarning && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-6 rounded-xl shadow-xl max-w-sm w-full text-center">
+            <h3 className="text-lg font-bold text-wedding-green mb-4">Peringatan Sesi</h3>
+            <p className="text-sm text-gray-600 mb-6 font-medium">Anda akan keluar otomatis karena tidak aktif. Klik 'OK' untuk tetap masuk.</p>
+            <button 
+              onClick={() => {
+                localStorage.setItem("adminAuthTime", Date.now().toString());
+                setShowWarning(false);
+              }}
+              className="w-full bg-wedding-green text-wedding-yellow py-2 rounded-lg font-bold"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { MessageSquare, Copy, CheckCircle, ExternalLink, AlertCircle, Trash2, Heart, Clock, User, Check, X } from "lucide-react";
+import { MessageSquare, Copy, CheckCircle, ExternalLink, AlertCircle, Trash2, Heart, Clock, User, Check, X, LogOut } from "lucide-react";
 import { db } from "../lib/firebase";
 import { collection, query, orderBy, onSnapshot, deleteDoc, doc, Timestamp } from "firebase/firestore";
 
@@ -12,7 +12,11 @@ interface Wish {
   waktu: any;
 }
 
-export function Admin() {
+interface AdminProps {
+  onLogout?: () => void;
+}
+
+export function Admin({ onLogout }: AdminProps) {
   // Invitation Generator States
   const [names, setNames] = useState("");
   const [phone, setPhone] = useState("");
@@ -237,12 +241,23 @@ Vinka & Irfan`;
   return (
     <div className="min-h-screen bg-wedding-yellow/30 p-4 md:p-8 font-sans">
       <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-wedding-green/20">
-        <div className="bg-wedding-green text-wedding-yellow p-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div>
-            <h1 className="text-2xl font-serif font-bold">Admin Panel Undangan</h1>
-            <p className="opacity-90 text-sm mt-1">Kelola undangan dan lihat doa restu tamu.</p>
+        <div className="bg-wedding-green text-wedding-yellow p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex justify-between w-full md:w-auto items-start">
+            <div>
+              <h1 className="text-2xl font-serif font-bold">Admin Panel Undangan</h1>
+              <p className="opacity-90 text-sm mt-1">Kelola undangan dan lihat doa restu tamu.</p>
+            </div>
+            {onLogout && (
+              <button 
+                onClick={onLogout} 
+                className="md:hidden p-2 bg-red-500/20 hover:bg-red-500/30 text-red-100 rounded-lg transition-colors border border-red-500/30"
+                title="Logout"
+              >
+                <LogOut size={20} />
+              </button>
+            )}
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap">
             <div className="flex bg-white/10 p-1 rounded-lg">
               <button 
                 onClick={() => setActiveTab("generator")}
@@ -259,8 +274,17 @@ Vinka & Irfan`;
             </div>
             <Link to="/" className="flex items-center gap-2 bg-wedding-yellow/20 hover:bg-wedding-yellow/30 px-4 py-2 rounded-lg transition-colors text-sm font-medium">
               <ExternalLink size={16} />
-              Buka Web
+              <span className="hidden sm:inline">Buka Web</span>
             </Link>
+            {onLogout && (
+              <button 
+                onClick={onLogout} 
+                className="hidden md:flex items-center gap-2 bg-red-500/20 hover:bg-red-500/40 text-red-100 px-4 py-2 rounded-lg transition-colors text-sm font-medium border border-red-500/30"
+              >
+                <LogOut size={16} />
+                Logout
+              </button>
+            )}
           </div>
         </div>
 
@@ -437,25 +461,35 @@ Vinka & Irfan`;
           </div>
         ) : (
           <div className="p-4 md:p-8">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-xl font-bold text-wedding-green flex items-center gap-2">
+            <div className="mb-8">
+              <h2 className="text-xl font-bold text-wedding-green flex items-center gap-2 mb-6">
                 <MessageSquare size={24} />
                 Daftar Ucapan & Doa
               </h2>
               
-              {/* Ringkasan Status */}
-              <div className="flex flex-wrap gap-2 text-xs md:text-sm font-semibold">
-                <div className="flex items-center gap-1.5 text-green-700 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
-                  <Check size={14} />
-                  <span>Hadir: {wishes.filter(w => w.kehadiran === 'Hadir').length}</span>
+              {/* Statistik Utama */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div className="bg-wedding-yellow/20 border border-wedding-green/20 p-4 rounded-xl text-center">
+                  <div className="text-3xl font-bold text-wedding-green mb-1">{wishes.length}</div>
+                  <div className="text-xs md:text-sm font-semibold text-wedding-green/80 uppercase tracking-wider">Total Ucapan</div>
                 </div>
-                <div className="flex items-center gap-1.5 text-red-700 bg-red-50 px-3 py-1.5 rounded-full border border-red-100">
-                  <X size={14} />
-                  <span>Tidak Hadir: {wishes.filter(w => w.kehadiran === 'Tidak Hadir').length}</span>
+                <div className="bg-green-50 border border-green-200 p-4 rounded-xl text-center">
+                  <div className="text-3xl font-bold text-green-700 mb-1">{wishes.filter(w => w.kehadiran === 'Hadir').length}</div>
+                  <div className="flex items-center justify-center gap-1.5 text-xs md:text-sm font-semibold text-green-800 uppercase tracking-wider">
+                    <Check size={14} /> Hadir
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5 text-yellow-700 bg-yellow-50 px-3 py-1.5 rounded-full border border-yellow-100">
-                  <span className="text-[12px] font-bold">?</span>
-                  <span>Ragu: {wishes.filter(w => w.kehadiran === 'Ragu-ragu').length}</span>
+                <div className="bg-red-50 border border-red-200 p-4 rounded-xl text-center">
+                  <div className="text-3xl font-bold text-red-700 mb-1">{wishes.filter(w => w.kehadiran === 'Tidak Hadir').length}</div>
+                  <div className="flex items-center justify-center gap-1.5 text-xs md:text-sm font-semibold text-red-800 uppercase tracking-wider">
+                    <X size={14} /> Tidak Hadir
+                  </div>
+                </div>
+                <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-xl text-center">
+                  <div className="text-3xl font-bold text-yellow-700 mb-1">{wishes.filter(w => w.kehadiran === 'Ragu-ragu').length}</div>
+                  <div className="flex items-center justify-center gap-1.5 text-xs md:text-sm font-semibold text-yellow-800 uppercase tracking-wider">
+                    <span className="text-[14px] font-bold">?</span> Ragu-ragu
+                  </div>
                 </div>
               </div>
             </div>

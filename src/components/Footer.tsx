@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Heart, Instagram, Globe, MessageCircle } from "lucide-react";
+import { Heart, Instagram, Globe, MessageCircle, Lock } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
@@ -52,6 +53,17 @@ export function Footer() {
                     <Instagram size={18} className="shrink-0 text-bg-kuning/80 group-hover:text-white" />
                     <span className="font-medium text-[11px] md:text-base">@otreworkid</span>
                 </a>
+            </div>
+
+            {/* Admin Login Button */}
+            <div className="mt-8 pt-8 border-t border-bg-kuning/10 w-full flex justify-center">
+                <Link 
+                    to="/?admin=true" 
+                    className="flex items-center gap-2 text-xs md:text-sm text-bg-kuning/50 hover:text-bg-kuning transition-colors px-4 py-2 rounded-full hover:bg-white/5"
+                >
+                    <Lock size={14} />
+                    <span>Admin Login</span>
+                </Link>
             </div>
         </div>
       </div>
