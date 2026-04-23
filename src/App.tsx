@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
+import { cn } from "./lib/utils";
 import { EnvelopeOverlay } from "./components/EnvelopeOverlay";
 import { Hero } from "./components/Hero";
 import { Quote } from "./components/Quote";
@@ -92,7 +93,22 @@ function Invitation() {
   }, [isOpened]);
 
   return (
-    <main className="relative bg-wedding-yellow min-h-screen font-sans text-wedding-green selection:bg-wedding-gold selection:text-white">
+    <main 
+      className={cn(
+        "relative min-h-screen font-sans text-wedding-green selection:bg-wedding-gold selection:text-white transition-colors duration-1000",
+        isOpened ? "bg-transparent" : "bg-bg-kuning"
+      )}
+    >
+      {isOpened && (
+        <div 
+          className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(rgba(253, 246, 170, 0.7), rgba(253, 246, 170, 0.7)), url('https://res.cloudinary.com/dwaizjrar/image/upload/q_auto,f_auto/bg3.jpg')`,
+            backgroundAttachment: 'fixed'
+          }}
+        />
+      )}
+      
       <EnvelopeOverlay isOpen={isOpened} onOpen={handleOpen} guestName={guestName} />
       
       {isOpened && (

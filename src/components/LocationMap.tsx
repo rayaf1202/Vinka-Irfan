@@ -8,7 +8,7 @@ export function LocationMap() {
   const googleMapsLink = "https://maps.app.goo.gl/tQ9UJZdHryq7ZW5j8";
 
   return (
-    <Section id="map" className="bg-bg-kuning text-center">
+    <Section id="map" className="bg-transparent text-center">
       <div className="max-w-6xl mx-auto px-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

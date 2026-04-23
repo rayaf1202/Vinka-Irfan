@@ -1,0 +1,36 @@
+{
+  "entities": {
+    "Wish": {
+      "title": "Wish",
+      "description": "Wedding wish and RSVP message from guests",
+      "type": "object",
+      "properties": {
+        "nama": {
+          "type": "string",
+          "description": "Guest name"
+        },
+        "kehadiran": {
+          "type": "string",
+          "enum": ["Hadir", "Tidak Hadir", "Ragu-ragu"],
+          "description": "Attendance status"
+        },
+        "pesan": {
+          "type": "string",
+          "description": "Wish or prayer message"
+        },
+        "waktu": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of the message"
+        }
+      },
+      "required": ["nama", "kehadiran", "pesan", "waktu"]
+    }
+  },
+  "firestore": {
+    "/ucapan": {
+      "schema": "Wish",
+      "description": "Collection of wedding wishes"
+    }
+  }
+}

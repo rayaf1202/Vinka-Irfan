@@ -18,7 +18,7 @@ export function Gallery() {
 
   return (
     <>
-    <Section className="bg-bg-kuning">
+    <Section className="bg-transparent">
       <div className="max-w-4xl mx-auto px-4 relative">
         {/* Decorative Border Container */}
         <div className="p-4 md:p-8 border-4 border-hijau-zaitun/30 rounded-[2rem] md:rounded-[4rem] bg-white/30 backdrop-blur-sm shadow-inner">

@@ -4,7 +4,7 @@ import { Section } from "./Section";
 
 export function Couple() {
   return (
-    <Section className="bg-bg-kuning text-center py-0">
+    <Section className="bg-transparent text-center py-0">
       <div className="max-w-4xl mx-auto px-4 relative">
         <Card>
           {/* Bride */}

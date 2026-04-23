@@ -34,7 +34,7 @@ export function EventDetails() {
   }, []);
 
   return (
-    <Section className="bg-bg-kuning text-center pt-0">
+    <Section className="bg-transparent text-center pt-0">
       <div className="max-w-4xl mx-auto relative px-2">
         <Card>
           <p className="mb-4 text-hijau-zaitun font-sans text-sm md:text-base px-2 uppercase tracking-widest font-bold">Save The Date</p>

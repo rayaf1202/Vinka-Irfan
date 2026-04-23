@@ -3,7 +3,7 @@ import { Section } from "./Section";
 
 export function Quote() {
   return (
-    <Section className="bg-bg-kuning text-center pb-0">
+    <Section className="bg-transparent text-center pb-0">
       <div className="max-w-3xl mx-auto relative px-4">
         {/* Top floral ornament */}
         <div className="absolute -top-16 left-0 right-0 flex justify-between opacity-30 pointer-events-none px-4 md:px-0">

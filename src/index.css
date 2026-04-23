@@ -13,7 +13,7 @@
 
 @layer base {
   body {
-    @apply font-sans bg-bg-kuning text-hijau-zaitun antialiased;
+    @apply font-sans bg-[#1a1a1a] text-hijau-zaitun antialiased m-0 overflow-x-hidden;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -21,19 +21,15 @@
   }
 }
 
-/* Custom Scrollbar */
+/* Hide scrollbar for Chrome, Safari and Opera */
 ::-webkit-scrollbar {
-  width: 8px;
+  display: none;
 }
-::-webkit-scrollbar-track {
-  background: #fdf6aa;
-}
-::-webkit-scrollbar-thumb {
-  background: #5b692b;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #3a4518;
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html, body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 /* Utility classes */

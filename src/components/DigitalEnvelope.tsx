@@ -21,7 +21,7 @@ export function DigitalEnvelope() {
   const giftAddress = "Perumahan Pasadena Pasir Putih blok A1, kelurahan Pasir Putih, Kecamatan Sawangan, Kota Depok.";
 
   return (
-    <Section className="bg-bg-kuning text-center pt-0">
+    <Section className="bg-transparent text-center pt-0">
       <div className="max-w-4xl mx-auto px-4">
         <Card className="mb-12">
           <h2 className="font-serif text-4xl md:text-5xl text-hijau-gelap mb-4 leading-tight italic">Amplop Digital</h2>
