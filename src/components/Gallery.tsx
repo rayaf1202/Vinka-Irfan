@@ -7,11 +7,10 @@ export function Gallery() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const images = [
-    "https://res.cloudinary.com/dwaizjrar/image/upload/v1776837190/Abg_4_nwcoxi.jpg",
-    "https://res.cloudinary.com/dwaizjrar/image/upload/v1776837190/Abg_7_glxhbq.jpg",
-    "https://res.cloudinary.com/dwaizjrar/image/upload/v1776837190/Abg_6_tuiwuy.jpg",
-    "https://res.cloudinary.com/dwaizjrar/image/upload/v1776837189/Abg_3_lug2br.jpg",
     "https://res.cloudinary.com/dwaizjrar/image/upload/v1776837189/Abg_5_ogwp3f.jpg",
+    "https://res.cloudinary.com/dwaizjrar/image/upload/v1776837190/Abg_7_glxhbq.jpg",
+    "https://res.cloudinary.com/dwaizjrar/image/upload/v1776837189/Abg_3_lug2br.jpg",
+    "https://res.cloudinary.com/dwaizjrar/image/upload/v1776837190/Abg_4_nwcoxi.jpg",
     "https://res.cloudinary.com/dwaizjrar/image/upload/Abg_6_tuiwuy",
     "https://res.cloudinary.com/dwaizjrar/image/upload/wedding_invitation/v1"
   ];
@@ -26,23 +25,23 @@ export function Gallery() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 w-full">
             {images.map((src, index) => {
-              const isLast = index === images.length - 1;
+              const isLandscape = index === 0 || index === images.length - 1;
               return (
                 <motion.div 
                   key={index}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  whileHover={{ y: -4, rotate: isLast ? 0 : (index % 2 === 0 ? 0.5 : -0.5) }}
+                  whileHover={{ y: -4, rotate: isLandscape ? 0 : (index % 2 === 0 ? 0.5 : -0.5) }}
                   transition={{ 
                     duration: 0.5,
                     ease: "easeOut"
                   }}
-                  className={`group cursor-pointer ${isLast ? 'lg:col-span-3 sm:col-span-2' : ''}`}
+                  className={`group cursor-pointer ${isLandscape ? 'lg:col-span-3 sm:col-span-2' : ''}`}
                   onClick={() => setSelectedIndex(index)}
                 >
                   <motion.div 
-                    className={`relative ${isLast ? 'aspect-video' : 'aspect-[4/5]'} rounded-xl overflow-hidden border-2 border-white shadow-lg group-hover:shadow-xl transition-all duration-300 bg-hijau-gelap/5`}
+                    className={`relative ${isLandscape ? 'aspect-video' : 'aspect-[4/5]'} rounded-xl overflow-hidden border-2 border-white shadow-lg group-hover:shadow-xl transition-all duration-300 bg-hijau-gelap/5`}
                     whileHover={{ scale: 1.01 }}
                   >
                     <img 

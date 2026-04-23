@@ -46,7 +46,7 @@ export function Hero() {
         <div className="flex flex-col items-center w-full px-6">
           <p className="text-bg-kuning tracking-[0.3em] text-[9px] md:text-sm mb-2 font-sans opacity-95 uppercase">THE WEDDING OF</p>
           
-          <h1 className="text-3xl md:text-7xl font-serif text-bg-kuning drop-shadow-xl leading-tight text-center px-4">
+          <h1 className="text-3xl md:text-7xl font-serif text-white drop-shadow-xl leading-tight text-center px-4">
             VINKA & IRFAN
           </h1>
           <p className="text-bg-kuning tracking-[0.2em] text-[11px] md:text-lg mt-4 font-sans font-bold drop-shadow-md">28.06.26</p>
