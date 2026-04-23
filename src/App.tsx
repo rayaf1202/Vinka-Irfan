@@ -142,7 +142,27 @@ export default function App() {
   const handleLogin = () => {
     setIsAdminAuth(true);
     localStorage.setItem("isAdminAuth", "true");
+    localStorage.setItem("adminAuthTime", Date.now().toString());
   };
+
+  useEffect(() => {
+    if (isAdminAuth) {
+      const checkAuth = () => {
+        const authTime = localStorage.getItem("adminAuthTime");
+        if (authTime) {
+          const elapsed = Date.now() - parseInt(authTime);
+          if (elapsed > 15 * 60 * 1000) { // 15 menit
+            setIsAdminAuth(false);
+            localStorage.removeItem("isAdminAuth");
+            localStorage.removeItem("adminAuthTime");
+          }
+        }
+      };
+
+      const interval = setInterval(checkAuth, 60000); // Cek per menit
+      return () => clearInterval(interval);
+    }
+  }, [isAdminAuth]);
 
   return (
     <>

@@ -27,6 +27,8 @@ export function Admin() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"generator" | "wishes">("generator");
   const [filterStatus, setFilterStatus] = useState<"Semua" | "Hadir" | "Tidak Hadir" | "Ragu-ragu">("Semua");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 20;
 
   // Fetch Wishes
   useEffect(() => {
@@ -142,7 +144,7 @@ export function Admin() {
       newErrors.names = "Nama tamu tidak boleh kosong.";
       isValid = false;
     } else if (nameList.length > MAX_NAMES_PER_BATCH) {
-      newErrors.names = `Terlalu banyak nama. Batas maksimal per batch adalah ${MAX_NAMES_PER_BATCH} nama.`;
+      newErrors.names = `Terlalu banyak nama. Maksimal ${MAX_NAMES_PER_BATCH} nama per batch untuk menjamin performa. Mohon bagi daftar nama Anda.`;
       isValid = false;
     }
 
@@ -425,6 +427,12 @@ Vinka & Irfan`;
                   <p className="text-right text-[10px] text-gray-400 mt-2">10:00 AM</p>
                 </div>
               </div>
+              <button
+                onClick={() => navigator.clipboard.writeText(getWhatsappMessage())}
+                className="mt-4 w-full flex items-center justify-center gap-2 bg-wedding-green/90 text-wedding-yellow py-3 rounded-lg font-bold hover:bg-wedding-green transition-all active:scale-95"
+              >
+                  <Copy size={18} /> Salin Pesan WhatsApp
+              </button>
             </div>
           </div>
         ) : (
@@ -477,64 +485,88 @@ Vinka & Irfan`;
               </div>
             ) : (
               <div className="grid gap-4">
-                {wishes.filter(w => filterStatus === "Semua" || w.kehadiran === filterStatus).map((wish) => (
-                  <div key={wish.id} className="bg-wedding-yellow/10 border border-wedding-green/10 rounded-xl p-4 md:p-6 transition-all hover:border-wedding-green/30 hover:shadow-md group">
-                    <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
-                      <div className="space-y-3 flex-grow">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full bg-wedding-green/10 flex items-center justify-center text-wedding-green">
-                            <User size={20} />
-                          </div>
-                          <div className="flex-1">
-                            <h3 className="font-bold text-wedding-green text-lg flex items-center gap-2">
-                                {wish.nama}
-                                <button onClick={() => copyToClipboard(wish.nama, `${wish.id}-nama`)} className="text-wedding-green/40 hover:text-wedding-green">
-                                    {copiedId === `${wish.id}-nama` ? <Check size={14} /> : <Copy size={14} />}
-                                </button>
-                            </h3>
-                            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
-                              <span className={`px-2 py-0.5 rounded flex items-center gap-1 ${
-                                wish.kehadiran === 'Hadir' 
-                                  ? 'bg-green-100 text-green-700' 
-                                  : wish.kehadiran === 'Tidak Hadir' 
-                                    ? 'bg-red-100 text-red-700' 
-                                    : 'bg-yellow-100 text-yellow-700'
-                              }`}>
-                                {wish.kehadiran}
-                                <button onClick={() => copyToClipboard(wish.kehadiran, `${wish.id}-status`)} className="opacity-50 hover:opacity-100">
-                                    {copiedId === `${wish.id}-status` ? <Check size={12} /> : <Copy size={12} />}
-                                </button>
-                              </span>
-                              <span className="text-gray-400 flex items-center gap-1">
-                                <Clock size={12} />
-                                {formatTime(wish.waktu)}
-                              </span>
+                {wishes
+                  .filter(w => filterStatus === "Semua" || w.kehadiran === filterStatus)
+                  .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+                  .map((wish) => (
+                    <div key={wish.id} className="bg-wedding-yellow/10 border border-wedding-green/10 rounded-xl p-4 md:p-6 transition-all hover:border-wedding-green/30 hover:shadow-md group">
+                      <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
+                        <div className="space-y-3 flex-grow">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-wedding-green/10 flex items-center justify-center text-wedding-green">
+                              <User size={20} />
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="font-bold text-wedding-green text-lg flex items-center gap-2">
+                                  {wish.nama}
+                                  <button onClick={() => copyToClipboard(wish.nama, `${wish.id}-nama`)} className="text-wedding-green/40 hover:text-wedding-green">
+                                      {copiedId === `${wish.id}-nama` ? <Check size={14} /> : <Copy size={14} />}
+                                  </button>
+                              </h3>
+                              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
+                                <span className={`px-2 py-0.5 rounded flex items-center gap-1 ${
+                                  wish.kehadiran === 'Hadir' 
+                                    ? 'bg-green-100 text-green-700' 
+                                    : wish.kehadiran === 'Tidak Hadir' 
+                                      ? 'bg-red-100 text-red-700' 
+                                      : 'bg-yellow-100 text-yellow-700'
+                                }`}>
+                                  {wish.kehadiran}
+                                  <button onClick={() => copyToClipboard(wish.kehadiran, `${wish.id}-status`)} className="opacity-50 hover:opacity-100">
+                                      {copiedId === `${wish.id}-status` ? <Check size={12} /> : <Copy size={12} />}
+                                  </button>
+                                </span>
+                                <span className="text-gray-400 flex items-center gap-1">
+                                  <Clock size={12} />
+                                  {formatTime(wish.waktu)}
+                                </span>
+                              </div>
                             </div>
                           </div>
+                          <p className="text-wedding-green/80 italic font-medium leading-relaxed bg-white/50 p-3 rounded-lg border border-wedding-green/5 relative group">
+                            "{wish.pesan}"
+                            <button onClick={() => copyToClipboard(wish.pesan, `${wish.id}-pesan`)} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-wedding-green/50 hover:text-wedding-green">
+                                  {copiedId === `${wish.id}-pesan` ? <Check size={14} /> : <Copy size={14} />}
+                            </button>
+                          </p>
                         </div>
-                        <p className="text-wedding-green/80 italic font-medium leading-relaxed bg-white/50 p-3 rounded-lg border border-wedding-green/5 relative group">
-                          "{wish.pesan}"
-                          <button onClick={() => copyToClipboard(wish.pesan, `${wish.id}-pesan`)} className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 text-wedding-green/50 hover:text-wedding-green">
-                                {copiedId === `${wish.id}-pesan` ? <Check size={14} /> : <Copy size={14} />}
-                          </button>
-                        </p>
+                        <button
+                          onClick={() => handleDeleteWish(wish.id)}
+                          disabled={deletingId === wish.id}
+                          className="flex items-center gap-2 px-3 py-2 text-red-500 hover:bg-red-50 disabled:opacity-50 rounded-lg transition-all border border-red-200 md:border-transparent md:hover:border-red-100 shrink-0"
+                          title="Hapus Ucapan"
+                        >
+                          {deletingId === wish.id ? (
+                            <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
+                          ) : (
+                            <Trash2 size={18} />
+                          )}
+                          <span className="text-xs font-bold md:hidden">Hapus</span>
+                        </button>
                       </div>
-                      <button
-                        onClick={() => handleDeleteWish(wish.id)}
-                        disabled={deletingId === wish.id}
-                        className="flex items-center gap-2 px-3 py-2 text-red-500 hover:bg-red-50 disabled:opacity-50 rounded-lg transition-all border border-red-200 md:border-transparent md:hover:border-red-100 shrink-0"
-                        title="Hapus Ucapan"
-                      >
-                        {deletingId === wish.id ? (
-                          <div className="w-4 h-4 border-2 border-red-500 border-t-transparent rounded-full animate-spin"></div>
-                        ) : (
-                          <Trash2 size={18} />
-                        )}
-                        <span className="text-xs font-bold md:hidden">Hapus</span>
-                      </button>
                     </div>
-                  </div>
                 ))}
+                
+                {/* Pagination Controls */}
+                {wishes.filter(w => filterStatus === "Semua" || w.kehadiran === filterStatus).length > ITEMS_PER_PAGE && (
+                  <div className="flex justify-center items-center gap-2 mt-8">
+                    <button 
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="px-4 py-2 bg-wedding-green text-wedding-yellow rounded-lg disabled:opacity-50"
+                    >
+                      Sebelumnya
+                    </button>
+                    <span className="text-sm font-bold text-wedding-green">Halaman {currentPage}</span>
+                    <button 
+                      onClick={() => setCurrentPage(p => Math.min(Math.ceil(wishes.filter(w => filterStatus === "Semua" || w.kehadiran === filterStatus).length / ITEMS_PER_PAGE), p + 1))}
+                      disabled={currentPage === Math.ceil(wishes.filter(w => filterStatus === "Semua" || w.kehadiran === filterStatus).length / ITEMS_PER_PAGE)}
+                      className="px-4 py-2 bg-wedding-green text-wedding-yellow rounded-lg disabled:opacity-50"
+                    >
+                      Selanjutnya
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
