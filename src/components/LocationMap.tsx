@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export function LocationMap() {
   const mapUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.174154942!2d106.7693529759!3d-6.3847169936054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69ef29b8b9b9b9%3A0x1b1b1b1b1b1b1b1b!2sMasjid%20Dian%20Al-Mahri%20(Kubah%20Emas)!5e0!3m2!1sen!2sid!4v1713781000000!5m2!1sen!2sid";
-  const googleMapsLink = "https://maps.app.goo.gl/tQ9UJZdHryq7ZW5j8";
+  const googleMapsLink = "https://maps.app.goo.gl/ruZFFKh21hNd2XHS9";
 
   return (
     <Section id="map" className="bg-transparent text-center">
@@ -57,12 +57,17 @@ export function LocationMap() {
             </div>
 
             {/* Venue Image */}
-            <div className="relative h-48 overflow-hidden">
-              <img 
-                src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776837190/Abg_4_nwcoxi.jpg" 
-                alt="Venue" 
-                className="w-full h-full object-cover"
-              />
+            <div className="relative h-48 overflow-hidden cursor-pointer group">
+              <a href={googleMapsLink} target="_blank" rel="noopener noreferrer">
+                <img 
+                  src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776837190/Abg_4_nwcoxi.jpg" 
+                  alt="Venue" 
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <span className="text-white text-sm font-bold bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">Buka Maps</span>
+                </div>
+              </a>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
                 <h3 className="text-white font-bold text-xl leading-tight">Masjid Dian Al-Mahri (Masjid Kubah Emas)</h3>
               </div>

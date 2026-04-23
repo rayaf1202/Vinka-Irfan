@@ -14,16 +14,19 @@ interface Wish {
 
 export function Admin() {
   // Invitation Generator States
-  const [name, setName] = useState("");
+  const [names, setNames] = useState("");
   const [phone, setPhone] = useState("");
   const [baseUrl, setBaseUrl] = useState("https://vinka-irfan.vercel.app/");
   const [copied, setCopied] = useState(false);
-  const [errors, setErrors] = useState<{ name?: string; phone?: string; baseUrl?: string }>({});
+  const [errors, setErrors] = useState<{ names?: string; phone?: string; baseUrl?: string }>({});
+  const MAX_NAMES_PER_BATCH = 50;
+  const getNameList = () => names.split('\n').filter(n => n.trim().length > 0);
 
   // Wishes States
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"generator" | "wishes">("generator");
+  const [filterStatus, setFilterStatus] = useState<"Semua" | "Hadir" | "Tidak Hadir" | "Ragu-ragu">("Semua");
 
   // Fetch Wishes
   useEffect(() => {
@@ -75,9 +78,11 @@ export function Admin() {
   };
 
   // Format the name for the URL (replace spaces with +)
-  const formattedName = name.trim().replace(/\s+/g, "+");
-  const cleanBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
-  const uniqueUrl = name.trim() ? `${cleanBaseUrl}?to=${formattedName}` : cleanBaseUrl;
+  const getUniqueUrl = (guestName: string) => {
+    const formattedName = guestName.trim().replace(/\s+/g, "+");
+    const cleanBaseUrl = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+    return guestName.trim() ? `${cleanBaseUrl}?to=${formattedName}` : cleanBaseUrl;
+  };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -106,7 +111,7 @@ export function Admin() {
   };
 
   const validate = () => {
-    const newErrors: { name?: string; phone?: string; baseUrl?: string } = {};
+    const newErrors: { names?: string; phone?: string; baseUrl?: string } = {};
     let isValid = true;
 
     if (!baseUrl.trim() || !baseUrl.startsWith("http")) {
@@ -114,8 +119,12 @@ export function Admin() {
       isValid = false;
     }
 
-    if (!name.trim()) {
-      newErrors.name = "Nama tamu tidak boleh kosong.";
+    const nameList = getNameList();
+    if (nameList.length === 0) {
+      newErrors.names = "Nama tamu tidak boleh kosong.";
+      isValid = false;
+    } else if (nameList.length > MAX_NAMES_PER_BATCH) {
+      newErrors.names = `Terlalu banyak nama. Batas maksimal per batch adalah ${MAX_NAMES_PER_BATCH} nama.`;
       isValid = false;
     }
 
@@ -128,16 +137,18 @@ export function Admin() {
       }
     }
 
-    if (newErrors.name || newErrors.phone || newErrors.baseUrl) {
+    if (newErrors.names || newErrors.phone || newErrors.baseUrl) {
       setErrors((prev) => ({ ...prev, ...newErrors }));
     }
     return isValid;
   };
 
-  const getWhatsappMessage = () => {
+  const getWhatsappMessage = (guestName?: string) => {
+    const nameToUse = guestName || "bapak/ibu/saudara/i";
+    const url = getUniqueUrl(guestName || "");
     return `Kepada Yth.
 Bapak/Ibu/Saudara/i
-${name.trim() || "[NAMA TAMU]"}
+${nameToUse.trim() || "[NAMA TAMU]"}
 
 Assalamualaikum Warahmatullahi Wabarakaatuh
 Dengan memohon rahmat dan ridho Allah SWT, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami :
@@ -147,7 +158,7 @@ dengan
 🤵🏻Irfan Maulana
 
 Info lengkap dari acara bisa kunjungi link di bawah ini:
-${uniqueUrl}
+${url}
 
 Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan untuk hadir dan memberikan doa restu.
 
@@ -159,8 +170,9 @@ Vinka & Irfan`;
 
   const handleCopy = async () => {
     if (!validate()) return;
+    const nameList = getNameList();
     try {
-      await navigator.clipboard.writeText(getWhatsappMessage());
+      await navigator.clipboard.writeText(getWhatsappMessage(nameList[0]));
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -176,14 +188,15 @@ Vinka & Irfan`;
   };
 
   const handleReset = () => {
-    setName("");
+    setNames("");
     setPhone("");
     setBaseUrl("https://vinka-irfan.vercel.app/");
     setErrors({});
   };
 
   const getWhatsappLink = () => {
-    const text = encodeURIComponent(getWhatsappMessage());
+    const nameList = getNameList();
+    const text = encodeURIComponent(getWhatsappMessage(nameList[0]));
     // Provide a phone number if given, otherwise just open whatsapp
     const phoneParam = phone ? `phone=${phone.replace(/\D/g, "")}&` : "";
     return `https://api.whatsapp.com/send?${phoneParam}text=${text}`;
@@ -259,28 +272,29 @@ Vinka & Irfan`;
                 </div>
 
                 <div>
-                  <label htmlFor="name" className="block text-sm font-semibold text-wedding-green mb-1">
-                    Nama Tamu <span className="text-red-500">*</span>
+                  <label htmlFor="names" className="block text-sm font-semibold text-wedding-green mb-1">
+                    Nama Tamu (Pisahkan per baris) <span className="text-red-500">*</span>
+                    <span className="text-xs font-normal opacity-70 block">(Rekomendasi max 50 nama per batch)</span>
                   </label>
-                  <input
-                    type="text"
-                    id="name"
-                    value={name}
+                  <textarea
+                    id="names"
+                    value={names}
                     onChange={(e) => {
-                      setName(e.target.value);
-                      if (errors.name) setErrors({...errors, name: undefined});
+                      setNames(e.target.value);
+                      if (errors.names) setErrors({...errors, names: undefined});
                     }}
-                    placeholder="Contoh: Budi Santoso"
+                    placeholder="Contoh:&#10;Budi Santoso&#10;Siti Aminah"
+                    rows={5}
                     className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 bg-wedding-yellow/10 transition-shadow ${
-                      errors.name 
+                      errors.names 
                         ? "border-red-400 focus:ring-red-400/50" 
                         : "border-wedding-green/30 focus:ring-wedding-green/50"
                     }`}
                   />
-                  {errors.name && (
+                  {errors.names && (
                     <p className="text-red-500 text-xs mt-1.5 flex items-center gap-1.5 font-medium">
                       <AlertCircle size={14} />
-                      {errors.name}
+                      {errors.names}
                     </p>
                   )}
                 </div>
@@ -382,16 +396,35 @@ Vinka & Irfan`;
                 <MessageSquare size={24} />
                 Daftar Ucapan & Doa
               </h2>
-              <div className="flex items-center gap-4 text-sm font-medium">
-                <div className="flex items-center gap-1.5 text-green-600 bg-green-50 px-3 py-1 rounded-full border border-green-100">
-                  <Check size={16} />
-                  Hadir: {wishes.filter(w => w.kehadiran === 'Hadir').length}
+              
+              {/* Ringkasan Status */}
+              <div className="flex flex-wrap gap-2 text-xs md:text-sm font-semibold">
+                <div className="flex items-center gap-1.5 text-green-700 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
+                  <Check size={14} />
+                  <span>Hadir: {wishes.filter(w => w.kehadiran === 'Hadir').length}</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-red-600 bg-red-50 px-3 py-1 rounded-full border border-red-100">
-                  <X size={16} />
-                  Abstain: {wishes.filter(w => w.kehadiran === 'Tidak Hadir').length}
+                <div className="flex items-center gap-1.5 text-red-700 bg-red-50 px-3 py-1.5 rounded-full border border-red-100">
+                  <X size={14} />
+                  <span>Tidak Hadir: {wishes.filter(w => w.kehadiran === 'Tidak Hadir').length}</span>
+                </div>
+                <div className="flex items-center gap-1.5 text-yellow-700 bg-yellow-50 px-3 py-1.5 rounded-full border border-yellow-100">
+                  <span className="text-[12px] font-bold">?</span>
+                  <span>Ragu: {wishes.filter(w => w.kehadiran === 'Ragu-ragu').length}</span>
                 </div>
               </div>
+            </div>
+
+            <div className="flex items-center gap-4 text-sm font-medium mb-6">
+                <select 
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value as any)}
+                  className="bg-white border border-wedding-green/20 text-wedding-green px-3 py-1.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-wedding-green/20"
+                >
+                  <option value="Semua">Semua Kehadiran</option>
+                  <option value="Hadir">Hadir</option>
+                  <option value="Tidak Hadir">Tidak Hadir</option>
+                  <option value="Ragu-ragu">Ragu-ragu</option>
+                </select>
             </div>
 
             {isLoading ? (
@@ -406,7 +439,7 @@ Vinka & Irfan`;
               </div>
             ) : (
               <div className="grid gap-4">
-                {wishes.map((wish) => (
+                {wishes.filter(w => filterStatus === "Semua" || w.kehadiran === filterStatus).map((wish) => (
                   <div key={wish.id} className="bg-wedding-yellow/10 border border-wedding-green/10 rounded-xl p-4 md:p-6 transition-all hover:border-wedding-green/30 hover:shadow-md group">
                     <div className="flex flex-col md:flex-row justify-between md:items-start gap-4">
                       <div className="space-y-3">

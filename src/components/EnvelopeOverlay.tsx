@@ -27,49 +27,52 @@ export function EnvelopeOverlay({ onOpen, isOpen, guestName: defaultGuestName }:
       {!isOpen && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, y: "-100%" }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="fixed inset-0 z-50 flex flex-col items-center py-12 md:py-20 text-white overflow-hidden bg-cover bg-no-repeat h-[100dvh] w-full"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://res.cloudinary.com/dwaizjrar/image/upload/q_auto,f_auto/bg1_rpzxaw.jpg')`,
-            backgroundPosition: 'center center',
-            backgroundSize: 'cover'
-          }}
+          exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 overflow-hidden"
         >
+          <div 
+            className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://res.cloudinary.com/dwaizjrar/image/upload/q_auto,f_auto,c_fill,w_1000/bg1_rpzxaw.jpg')`
+            }}
+          />
+          
           <motion.div 
-            initial={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="relative z-10 flex flex-col items-center text-center px-6 max-w-lg w-full h-full justify-between"
+            transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+            className="relative z-10 flex flex-col items-center text-center max-w-xl w-full"
           >
-            <div className="mt-44 md:mt-64">
-              <p className="text-lg md:text-2xl font-sans italic text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mb-1 capitalize">The Wedding of</p>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-white uppercase drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)] leading-tight tracking-wider font-bold">
-                Vinka & Irfan
+            <div className="mb-12">
+              <p className="text-xs sm:text-sm font-sans italic text-white/90 mb-2 tracking-[0.3em] uppercase">The Wedding of</p>
+              <h1 className="text-4xl sm:text-6xl font-serif text-white uppercase leading-tight tracking-widest font-bold drop-shadow-lg">
+                Vinka <br /> <span className="text-wedding-gold">&</span> Irfan
               </h1>
             </div>
 
-            <div className="w-full max-w-md mx-auto mb-6 md:mb-10">
-              <p className="text-base md:text-xl font-sans font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mb-1">Kepada Yth:</p>
-              <div className="mb-4 md:mb-6 min-h-[40px] flex items-center justify-center">
+            <div className="w-full max-w-sm mx-auto mb-10">
+              <p className="text-xs font-sans font-medium text-white/70 mb-3 uppercase tracking-[0.25em]">Kepada Yth:</p>
+              <div className="mb-8 min-h-[4rem] flex items-center justify-center p-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 shadow-xl">
                 {guestName ? (
-                  <p className="text-xl md:text-3xl font-semibold font-sans text-white leading-tight break-words drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                  <p className="text-lg md:text-xl font-medium font-sans text-white leading-tight break-words">
                     {guestName}
                   </p>
                 ) : (
-                  <p className="text-base sm:text-xl md:text-2xl font-semibold font-sans text-white whitespace-nowrap overflow-hidden text-ellipsis px-1 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                  <p className="text-base font-sans text-white">
                     Bapak / Ibu / Saudara / i
                   </p>
                 )}
               </div>
 
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                animate={{ boxShadow: ["0 0 0 0 rgba(197, 165, 87, 0.4)", "0 0 0 20px rgba(197, 165, 87, 0)"] }}
+                transition={{ repeat: Infinity, duration: 2.5 }}
                 onClick={onOpen}
-                className="flex items-center justify-center gap-2 w-full bg-[#a39171]/90 backdrop-blur-md border border-white/50 text-white py-3 px-6 rounded-full font-sans font-semibold shadow-[0_8px_20px_rgba(0,0,0,0.4)] hover:bg-[#a39171] transition-colors mx-auto max-w-[220px] md:max-w-[250px]"
+                className="flex items-center justify-center gap-3 w-full bg-[#c5a557]/80 backdrop-blur-sm border border-white/20 text-white py-4 px-8 rounded-full font-sans font-bold shadow-2xl hover:bg-[#c5a557] transition-all max-w-[260px] mx-auto"
               >
-                <Flower2 size={20} />
+                <Heart size={18} className="text-white" />
                 Buka Undangan
               </motion.button>
             </div>

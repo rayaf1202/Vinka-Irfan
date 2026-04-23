@@ -103,8 +103,7 @@ function Invitation() {
         <div 
           className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat pointer-events-none"
           style={{
-            backgroundImage: `linear-gradient(rgba(253, 246, 170, 0.7), rgba(253, 246, 170, 0.7)), url('https://res.cloudinary.com/dwaizjrar/image/upload/q_auto,f_auto/bg3.jpg')`,
-            backgroundAttachment: 'fixed'
+            backgroundImage: `linear-gradient(rgba(253, 246, 170, 0.7), rgba(253, 246, 170, 0.7)), url('https://res.cloudinary.com/dwaizjrar/image/upload/q_auto,f_auto,c_fill,w_800/bg3.jpg')`
           }}
         />
       )}
