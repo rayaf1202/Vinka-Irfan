@@ -292,7 +292,7 @@ Vinka & Irfan`;
                 <div>
                   <label htmlFor="names" className="block text-sm font-semibold text-wedding-green mb-1">
                     Nama Tamu (Pisahkan per baris) <span className="text-red-500">*</span>
-                    <span className="text-xs font-normal opacity-70 block">(Rekomendasi max 50 nama per batch)</span>
+                    <span className="text-xs font-bold text-wedding-green/90 block mt-1 bg-wedding-green/10 p-2 rounded">Batas maksimal: 50 nama per batch</span>
                   </label>
                   <textarea
                     id="names"

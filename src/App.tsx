@@ -14,6 +14,7 @@ import { Guestbook } from "./components/Guestbook";
 import { Footer } from "./components/Footer";
 import { MusicPlayer } from "./components/MusicPlayer";
 import { Admin } from "./pages/Admin";
+import { AdminLogin } from "./components/AdminLogin";
 
 function Invitation() {
   const [isOpened, setIsOpened] = useState(false);
@@ -134,10 +135,23 @@ export default function App() {
   const searchParams = new URLSearchParams(location.search);
   const isAdminPath = searchParams.has('admin');
 
+  const [isAdminAuth, setIsAdminAuth] = useState(() => {
+    return localStorage.getItem("isAdminAuth") === "true";
+  });
+
+  const handleLogin = () => {
+    setIsAdminAuth(true);
+    localStorage.setItem("isAdminAuth", "true");
+  };
+
   return (
     <>
       <Routes>
-        <Route path="/" element={isAdminPath ? <Admin /> : <Invitation />} />
+        <Route path="/" element={
+          isAdminPath ? 
+            (isAdminAuth ? <Admin /> : <AdminLogin onLogin={handleLogin} />) 
+            : <Invitation />
+        } />
         <Route path="*" element={<Invitation />} />
       </Routes>
     </>
