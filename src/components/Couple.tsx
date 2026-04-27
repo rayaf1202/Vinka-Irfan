@@ -17,7 +17,7 @@ export function Couple() {
             
             <div className="w-32 h-44 md:w-40 md:h-56 mx-auto mb-4 rounded-t-full border-[4px] md:border-[6px] border-bg-kuning overflow-hidden shadow-xl bg-bg-kuning/10">
               <img 
-                src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776838504/wedding_invitation/v1_png.png" 
+                src="https://res.cloudinary.com/dwaizjrar/image/upload/q_auto,f_auto/ft_1_xcwghk.jpg" 
                 alt="Vinka" 
                 className="w-full h-full object-cover"
               />
@@ -55,7 +55,7 @@ export function Couple() {
             
             <div className="w-32 h-44 md:w-40 md:h-56 mx-auto mb-4 rounded-t-full border-[4px] md:border-[6px] border-bg-kuning overflow-hidden shadow-xl bg-bg-kuning/10">
               <img 
-                src="https://res.cloudinary.com/dwaizjrar/image/upload/v1776838504/wedding_invitation/v2_png.png" 
+                src="https://res.cloudinary.com/dwaizjrar/image/upload/q_auto,f_auto/ft_2_ibu1ff.jpg" 
                 alt="Irfan" 
                 className="w-full h-full object-cover"
               />

@@ -1,6 +1,7 @@
 import { Section } from "./Section";
 import { Card } from "./Card";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 export function EventDetails() {
   const [timeLeft, setTimeLeft] = useState({
@@ -39,22 +40,42 @@ export function EventDetails() {
         <Card>
           <p className="mb-4 text-hijau-zaitun font-sans text-sm md:text-base px-2 uppercase tracking-widest font-bold">Save The Date</p>
           
-          <div className="text-3xl md:text-6xl font-serif font-bold mb-8 text-hijau-gelap leading-tight italic">
+          <h2 className="text-3xl md:text-6xl font-serif font-bold mb-8 text-hijau-gelap leading-tight italic">
             Minggu, 28 Juni 2026
-          </div>
+          </h2>
 
           {/* Countdown */}
-          <div className="grid grid-cols-4 gap-2 md:gap-8 mb-12 max-w-sm md:max-w-2xl mx-auto">
-            {Object.entries(timeLeft).map(([unit, value]) => (
-              <div key={unit} className="flex flex-col items-center">
-                <div className="w-16 h-16 md:w-28 md:h-28 bg-white border-2 border-hijau-zaitun/10 text-hijau-gelap rounded-3xl flex items-center justify-center mb-2 shadow-xl">
-                  <span className="font-serif text-2xl md:text-5xl font-bold">{value.toString().padStart(2, '0')}</span>
+          <div 
+            className="grid grid-cols-4 gap-2 md:gap-8 mb-12 max-w-sm md:max-w-2xl mx-auto"
+            role="timer"
+            aria-live="polite"
+            aria-label="Countdown waktu menuju acara"
+          >
+            {Object.entries(timeLeft).map(([unit, value]) => {
+              const label = unit === 'days' ? 'Hari' : unit === 'hours' ? 'Jam' : unit === 'minutes' ? 'Menit' : 'Detik';
+              return (
+                <div key={unit} className="flex flex-col items-center" aria-label={`${value} ${label}`}>
+                  <div className="w-16 h-16 md:w-28 md:h-28 bg-white border-2 border-hijau-zaitun/10 text-hijau-gelap rounded-3xl flex items-center justify-center mb-2 shadow-xl overflow-hidden relative">
+                    <AnimatePresence mode="popLayout">
+                      <motion.span
+                        key={value}
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+                        className="font-serif text-2xl md:text-5xl font-bold"
+                        aria-hidden="true"
+                      >
+                        {value.toString().padStart(2, '0')}
+                      </motion.span>
+                    </AnimatePresence>
+                  </div>
+                  <span className="text-[10px] md:text-sm uppercase tracking-[0.2em] text-hijau-zaitun font-bold" aria-hidden="true">
+                    {label}
+                  </span>
                 </div>
-                <span className="text-[10px] md:text-sm uppercase tracking-[0.2em] text-hijau-zaitun font-bold">
-                  {unit === 'days' ? 'Hari' : unit === 'hours' ? 'Jam' : unit === 'minutes' ? 'Menit' : 'Detik'}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="w-full h-px bg-hijau-zaitun/10 mb-12"></div>
@@ -74,7 +95,7 @@ export function EventDetails() {
 
           <div className="mb-12 px-2">
             <div className="inline-block p-4 mb-4 bg-hijau-gelap/5 rounded-full">
-               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-hijau-gelap mx-auto">
+               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-hijau-gelap mx-auto" aria-hidden="true">
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
                   <circle cx="12" cy="10" r="3" />
                </svg>
@@ -89,7 +110,7 @@ export function EventDetails() {
         </Card>
 
         {/* Bottom floral ornament */}
-        <div className="absolute -bottom-10 left-0 right-0 flex justify-between opacity-80 pointer-events-none">
+        <div className="absolute -bottom-10 left-0 right-0 flex justify-between opacity-80 pointer-events-none" aria-hidden="true">
           <svg width="100" height="100" viewBox="0 0 100 100" className="fill-hijau-zaitun" style={{ transform: 'scaleY(-1)' }}>
             <path d="M0 50 Q50 0 100 50 Q50 100 0 50 Z" />
             <circle cx="50" cy="50" r="20" fill="#fdf6aa" />

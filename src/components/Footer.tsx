@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { Heart, Instagram, Globe, MessageCircle, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Heart, Instagram, Globe, MessageCircle } from "lucide-react";
+
 
 export function Footer() {
   return (
@@ -35,7 +35,7 @@ export function Footer() {
             
             <div className="flex flex-col items-center gap-4">
                 <a 
-                    href="#" 
+                    href="https://otreworkid.vercel.app/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 hover:text-white transition-all group"
@@ -55,16 +55,6 @@ export function Footer() {
                 </a>
             </div>
 
-            {/* Admin Login Button */}
-            <div className="mt-8 pt-8 border-t border-bg-kuning/10 w-full flex justify-center">
-                <Link 
-                    to="/?admin=true" 
-                    className="flex items-center gap-2 text-xs md:text-sm text-bg-kuning/50 hover:text-bg-kuning transition-colors px-4 py-2 rounded-full hover:bg-white/5"
-                >
-                    <Lock size={14} />
-                    <span>Admin Login</span>
-                </Link>
-            </div>
         </div>
       </div>
     </footer>
