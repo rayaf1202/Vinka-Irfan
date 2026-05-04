@@ -139,7 +139,7 @@ export function LocationMap() {
                       <div className="flex items-center justify-between">
                         <p className="text-sm text-hijau-gelap font-bold">Akad Nikah</p>
                       </div>
-                      <p className="text-xs text-gray-500">Minggu, 08:00 WIB - Selesai</p>
+                      <p className="text-xs text-gray-500">Minggu, 07.00 WIB - Selesai</p>
                     </div>
                     <div>
                       <div className="flex items-center justify-between">
